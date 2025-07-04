@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frankfurt Route Activator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 10%;
+            background-color: #0e1117;
+            color: #ffffff;
+        }
+        button {
+            background-color: #1f6feb;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1158c7;
+        }
+        .status {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #a0a0a0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Activate Frankfurt Route</h1>
+    <p>Click below to ping game-relevant Frankfurt servers for improved routing.</p>
+    <button onclick="activateRoute()">Activate Frankfurt Route</button>
+    <div class="status" id="status">Waiting for activation...</div>
+
+    <script>
+        const targets = [
+            "https://frankfurt-speedtest.softlayer.com/downloads/test10.zip",  // SoftLayer Frankfurt
+            "https://speedtest-fra1.digitalocean.com/10mb.test",              // DigitalOcean FRA
+            "https://fra.lg.vultr.com/100MB.test",                            // Vultr Frankfurt
+            "https://www.playstation.com/",                                   // PlayStation domain (ping effect, low data)
+            "https://riotgames.com/"                                          // Riot Games homepage
+        ];
+
+        function activateRoute() {
+            document.getElementById('status').innerText = "Pinging Frankfurt endpoints...";
+            let completed = 0;
+
+            targets.forEach((url, index) => {
+                fetch(url, { method: 'HEAD', mode: 'no-cors' })
+                    .finally(() => {
+                        completed++;
+                        if (completed === targets.length) {
+                            document.getElementById('status').innerText = "Route activated. You may now turn on your PS5.";
+                        }
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
